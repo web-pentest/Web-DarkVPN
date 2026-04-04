@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>DarkVPN ❄️ — Instagram‑стиль</title>
+    <title>DarkVPN ❄️ — Instagram style</title>
     <style>
         * {
             margin: 0;
@@ -17,7 +17,6 @@
             color: #f0f0f0;
         }
 
-        /* снежинки */
         .snow {
             position: fixed;
             top: 0;
@@ -31,14 +30,13 @@
             position: absolute;
             background: white;
             border-radius: 50%;
-            opacity: 0.5;
+            opacity: 0.4;
             animation: fall linear infinite;
         }
         @keyframes fall {
             to { transform: translateY(100vh); }
         }
 
-        /* главный контейнер как Instagram лента */
         .container {
             max-width: 600px;
             margin: 0 auto;
@@ -47,7 +45,6 @@
             z-index: 2;
         }
 
-        /* шапка как в Instagram */
         .header {
             display: flex;
             justify-content: space-between;
@@ -67,13 +64,9 @@
         .header-icons {
             display: flex;
             gap: 20px;
-        }
-        .header-icons span {
-            font-size: 1.5rem;
-            cursor: pointer;
+            font-size: 1.4rem;
         }
 
-        /* истории (сторис) */
         .stories {
             display: flex;
             gap: 16px;
@@ -85,6 +78,7 @@
         .story {
             text-align: center;
             min-width: 70px;
+            cursor: pointer;
         }
         .story-ring {
             width: 70px;
@@ -95,7 +89,6 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 6px;
-            cursor: pointer;
         }
         .story-img {
             width: 64px;
@@ -112,7 +105,6 @@
             color: #b0b0b0;
         }
 
-        /* карточка поста */
         .post {
             background: #1a1e26;
             border-radius: 20px;
@@ -163,6 +155,17 @@
             margin: 12px 0;
             border: 1px solid #2c313c;
         }
+        button {
+            background: #b0d4ff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            color: #0a0c10;
+            cursor: pointer;
+            margin-top: 8px;
+            width: 100%;
+        }
         .post-stats {
             display: flex;
             gap: 20px;
@@ -171,17 +174,6 @@
             color: #8e94a3;
             font-size: 0.8rem;
         }
-        button {
-            background: #b0d4ff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            color: #0a0c10;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-
         .instruction-step {
             background: #0f1217;
             border-radius: 16px;
@@ -190,6 +182,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
         .step-num {
             width: 32px;
@@ -202,39 +195,26 @@
             font-weight: bold;
             color: #0a0c10;
         }
-
+        a {
+            color: #b0d4ff;
+            text-decoration: none;
+        }
         footer {
             text-align: center;
             padding: 24px;
             color: #6c727f;
             font-size: 0.7rem;
         }
-        a {
-            color: #b0d4ff;
-            text-decoration: none;
-        }
-        .glass-card {
-            background: rgba(26, 30, 38, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            padding: 20px;
-        }
     </style>
 </head>
 <body>
 <div class="snow" id="snow"></div>
 <div class="container">
-    <!-- шапка как в Instagram -->
     <div class="header">
         <div class="logo">❄️ DarkVPN</div>
-        <div class="header-icons">
-            <span>❤️</span>
-            <span>💬</span>
-            <span>📌</span>
-        </div>
+        <div class="header-icons">❤️ 💬 📌</div>
     </div>
 
-    <!-- истории (сторис) с разделами -->
     <div class="stories">
         <div class="story" data-section="proxy">
             <div class="story-ring"><div class="story-img">📡</div></div>
@@ -244,17 +224,12 @@
             <div class="story-ring"><div class="story-img">📖</div></div>
             <div class="story-name">Инструкция</div>
         </div>
-        <div class="story" data-section="info">
-            <div class="story-ring"><div class="story-img">💎</div></div>
-            <div class="story-name">DarkVPN</div>
-        </div>
         <div class="story" data-section="github">
             <div class="story-ring"><div class="story-img">🐙</div></div>
             <div class="story-name">GitHub</div>
         </div>
     </div>
 
-    <!-- лента постов (динамическая) -->
     <div id="feed"></div>
 
     <footer>
@@ -263,43 +238,60 @@
 </div>
 
 <script>
-    // ========== ТВОИ ПРОКСИ (ЗАМЕНИ НА СВОИ) ==========
-    const PROXIES_LIST = `vless://0fc75643-70ed-4818-a57e-a589234742f7@at4.darknet.run:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=14BLTnoHpPJF9pd9sc6eC3skMJnXFS_caUFQjA1ayyU&sid=a1b223d4&sni=gmail.com#🇦🇹 Австрия, Вена
-vless://549c594a-a263-47b9-b2d9-9f383bed611c@185.209.41.102:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=lVxgFHhg8d6UYTLzBssS7c4gBdLQex8W5Bg0PqyMLAY&sid=68d8c1c0&sni=addons.mozilla.org#🇩🇪 Германия
-vless://a7b3c5d9-1e2f-3a4b-5c6d-7e8f9a0b1c2d@us.vless.pro:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=9mNvB7xZcVbNhYtRzXcVbN1mQwE3rTyUioPzA&sid=7c3d5e7f&sni=cloudflare.com#🇺🇸 США
-vless://f1e2d3c4-b5a6-7980-1a2b-3c4d5e6f7g8h@sg.vless.pro:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=2kLpM9oIj2kDfG5hYtRzXcVbN1mQwE3rTyUioPzA&sid=8a9b0c1d&sni=google.com#🇸🇬 Сингапур`;
+    const PROXY_FILE_URL = 'https://raw.githubusercontent.com/web-pentest/DarkVPN/main/proxies.txt';
+    const PROXIES_LIST_PLACEHOLDER = 'загрузка прокси...';
 
-    // Рендер ленты
+    let cachedProxies = '';
+
+    async function loadProxies() {
+        try {
+            const res = await fetch(PROXY_FILE_URL);
+            const text = await res.text();
+            cachedProxies = text;
+            document.getElementById('proxyText')?.classList?.remove('loading');
+            if (document.getElementById('proxyText')) {
+                document.getElementById('proxyText').innerText = cachedProxies;
+            }
+        } catch(e) {
+            cachedProxies = 'Ошибка загрузки прокси. Проверь интернет или зайди позже.';
+            if (document.getElementById('proxyText')) {
+                document.getElementById('proxyText').innerText = cachedProxies;
+            }
+        }
+    }
+
     function renderFeed(section) {
         const feed = document.getElementById('feed');
         feed.innerHTML = '';
 
         if (section === 'proxy') {
-            // пост с прокси
-            const post = document.createElement('div');
-            post.className = 'post';
-            post.innerHTML = `
-                <div class="post-header">
-                    <div class="post-avatar">📡</div>
-                    <div class="post-author">DarkVPN Proxy</div>
-                    <div class="post-time">только что</div>
-                </div>
-                <div class="post-content">
-                    <div class="post-text"><strong>🌍 140+ рабочих прокси VLESS+Reality</strong><br>Скопируй и импортируй в Throne / Hiddify</div>
-                    <div class="proxy-code">${escapeHtml(PROXIES_LIST)}</div>
-                    <button id="copyProxiesBtn">📋 Копировать все прокси</button>
-                </div>
-                <div class="post-stats">
-                    <span>❤️ 1.2k</span>
-                    <span>💬 45</span>
-                    <span>📤 128</span>
+            feed.innerHTML = `
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-avatar">📡</div>
+                        <div class="post-author">DarkVPN Proxy</div>
+                        <div class="post-time">обновляется ежедневно</div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-text"><strong>🌍 140+ прокси VLESS+Reality</strong><br>Скопируй ссылки и импортируй в Throne / Hiddify</div>
+                        <div class="proxy-code" id="proxyText">загрузка...</div>
+                        <button id="copyProxiesBtn">📋 Копировать все прокси</button>
+                    </div>
+                    <div class="post-stats"><span>❤️ 1.2k</span><span>💬 45</span><span>📤 128</span></div>
                 </div>
             `;
-            feed.appendChild(post);
-            document.getElementById('copyProxiesBtn')?.addEventListener('click', () => {
-                navigator.clipboard.writeText(PROXIES_LIST);
-                alert('✅ Прокси скопированы!');
-            });
+            loadProxies();
+            const copyBtn = document.getElementById('copyProxiesBtn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    if (cachedProxies && cachedProxies !== 'Ошибка загрузки прокси. Проверь интернет или зайди позже.') {
+                        navigator.clipboard.writeText(cachedProxies);
+                        alert('✅ Прокси скопированы! Вставьте в файл .txt и импортируйте в Throne');
+                    } else {
+                        alert('⚠️ Прокси ещё не загрузились, попробуй через минуту');
+                    }
+                });
+            }
         }
         else if (section === 'howto') {
             feed.innerHTML = `
@@ -307,34 +299,24 @@ vless://f1e2d3c4-b5a6-7980-1a2b-3c4d5e6f7g8h@sg.vless.pro:443?type=tcp&security=
                     <div class="post-header">
                         <div class="post-avatar">📖</div>
                         <div class="post-author">DarkVPN Guide</div>
-                        <div class="post-time">рекомендовано</div>
+                        <div class="post-time">просто и быстро</div>
                     </div>
                     <div class="post-content">
                         <div class="instruction-step"><div class="step-num">1</div> Скачай <strong>Throne (Hiddify)</strong> — <a href="https://github.com/hiddify/hiddify-next/releases" target="_blank">GitHub релиз</a></div>
-                        <div class="instruction-step"><div class="step-num">2</div> Скопируй прокси из вкладки <strong>«Прокси»</strong></div>
-                        <div class="instruction-step"><div class="step-num">3</div> Вставь в файл <code>proxies.txt</code></div>
-                        <div class="instruction-step"><div class="step-num">4</div> Импорт в Throne → Готово</div>
+                        <div class="instruction-step"><div class="step-num">2</div> Скачай файл с прокси: <br><strong><a href="${PROXY_FILE_URL}" target="_blank">${PROXY_FILE_URL}</a></strong><br><button id="copyUrlBtn">📋 Копировать ссылку</button></div>
+                        <div class="instruction-step"><div class="step-num">3</div> Импортируй файл в Throne → Подключись</div>
                         <div class="instruction-step"><div class="step-num">📱</div> Для телефона: Hiddify / Sing-box</div>
                     </div>
                     <div class="post-stats"><span>❤️ 850</span><span>💬 23</span><span>📤 67</span></div>
                 </div>
             `;
-        }
-        else if (section === 'info') {
-            feed.innerHTML = `
-                <div class="post">
-                    <div class="post-header">
-                        <div class="post-avatar">💎</div>
-                        <div class="post-author">DarkVPN ∞</div>
-                        <div class="post-time">проект</div>
-                    </div>
-                    <div class="post-content">
-                        <div class="post-text"><strong>❄️ DarkVPN — свобода без границ</strong><br>140+ VLESS+Reality прокси для обхода блокировок в РФ. Обновляется каждый день.</div>
-                        <div class="proxy-code">⭐ 15+ стран • работает везде • никаких логов</div>
-                    </div>
-                    <div class="post-stats"><span>❤️ 2.3k</span><span>💬 128</span><span>📤 512</span></div>
-                </div>
-            `;
+            const copyUrlBtn = document.getElementById('copyUrlBtn');
+            if (copyUrlBtn) {
+                copyUrlBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(PROXY_FILE_URL);
+                    alert('✅ Ссылка на файл прокси скопирована!');
+                });
+            }
         }
         else if (section === 'github') {
             feed.innerHTML = `
@@ -345,8 +327,8 @@ vless://f1e2d3c4-b5a6-7980-1a2b-3c4d5e6f7g8h@sg.vless.pro:443?type=tcp&security=
                         <div class="post-time">github</div>
                     </div>
                     <div class="post-content">
-                        <div class="post-text"><strong>🔗 Мои проекты на GitHub</strong></div>
-                        <div class="proxy-code"><a href="https://github.com/web-pentest/DarkVPN" target="_blank">💀 DarkVPN</a> — главный проект<br><a href="https://github.com/web-pentest" target="_blank">🐙 github.com/web-pentest</a> — все репозитории</div>
+                        <div class="post-text"><strong>🔗 Мои проекты</strong></div>
+                        <div class="proxy-code"><a href="https://github.com/web-pentest/DarkVPN" target="_blank">💀 DarkVPN</a><br><a href="https://github.com/web-pentest" target="_blank">🐙 github.com/web-pentest</a></div>
                     </div>
                     <div class="post-stats"><span>❤️ 560</span><span>💬 34</span><span>📤 89</span></div>
                 </div>
@@ -354,36 +336,23 @@ vless://f1e2d3c4-b5a6-7980-1a2b-3c4d5e6f7g8h@sg.vless.pro:443?type=tcp&security=
         }
     }
 
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
-
-    // Обработка кликов по историям
     document.querySelectorAll('.story').forEach(story => {
         story.addEventListener('click', () => {
-            const section = story.dataset.section;
-            renderFeed(section);
+            renderFeed(story.dataset.section);
         });
     });
 
-    // Запускаем ленту с прокси
     renderFeed('proxy');
 
-    // снежинки
     function createSnow() {
         const snowContainer = document.getElementById('snow');
         for (let i = 0; i < 60; i++) {
-            const snowflake = document.createElement('i');
-            snowflake.style.left = Math.random() * 100 + '%';
-            snowflake.style.width = snowflake.style.height = Math.random() * 5 + 2 + 'px';
-            snowflake.style.animationDuration = Math.random() * 4 + 3 + 's';
-            snowflake.style.animationDelay = Math.random() * 5 + 's';
-            snowContainer.appendChild(snowflake);
+            const flake = document.createElement('i');
+            flake.style.left = Math.random() * 100 + '%';
+            flake.style.width = flake.style.height = Math.random() * 5 + 2 + 'px';
+            flake.style.animationDuration = Math.random() * 4 + 3 + 's';
+            flake.style.animationDelay = Math.random() * 5 + 's';
+            snowContainer.appendChild(flake);
         }
     }
     createSnow();
