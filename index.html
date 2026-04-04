@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>DarkVPN ❄️ — обход блокировок в РФ</title>
+    <title>DarkVPN ❄️ — Instagram‑стиль</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'JetBrains Mono', monospace;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0a1a2e, #06101c);
-            position: relative;
-            overflow-x: hidden;
+            background: #0a0c10;
+            color: #f0f0f0;
         }
 
         /* снежинки */
         .snow {
             position: fixed;
-            top: -10px;
+            top: 0;
             left: 0;
             width: 100%;
             height: 100%;
@@ -33,327 +31,358 @@
             position: absolute;
             background: white;
             border-radius: 50%;
-            opacity: 0.6;
+            opacity: 0.5;
             animation: fall linear infinite;
         }
         @keyframes fall {
             to { transform: translateY(100vh); }
         }
 
-        .glass {
+        /* главный контейнер как Instagram лента */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 16px;
             position: relative;
-            z-index: 10;
-            max-width: 1300px;
-            margin: 20px auto;
-            background: rgba(10, 25, 35, 0.65);
-            backdrop-filter: blur(12px);
-            border-radius: 48px;
-            border: 1px solid rgba(176, 224, 255, 0.3);
-            box-shadow: 0 0 40px rgba(176, 224, 255, 0.1);
-            overflow: hidden;
+            z-index: 2;
         }
 
+        /* шапка как в Instagram */
         .header {
-            padding: 24px 32px;
-            background: rgba(5, 15, 25, 0.7);
-            border-bottom: 1px solid rgba(176, 224, 255, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid #2c313c;
+            margin-bottom: 16px;
         }
-
-        .logo h1 {
-            font-size: 2rem;
-            letter-spacing: 2px;
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
             background: linear-gradient(135deg, #e0f0ff, #b0d4ff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 15px rgba(176, 224, 255, 0.3);
         }
-        .logo p {
-            color: #8ab3cf;
-            font-size: 0.75rem;
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .header-icons span {
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
-        .github-links {
+        /* истории (сторис) */
+        .stories {
             display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 12px 0 20px;
+            margin-bottom: 16px;
+            scrollbar-width: none;
+        }
+        .story {
+            text-align: center;
+            min-width: 70px;
+        }
+        .story-ring {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #b0d4ff, #4a7a9e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+        .story-img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #1a1e26;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        .story-name {
+            font-size: 0.7rem;
+            color: #b0b0b0;
+        }
+
+        /* карточка поста */
+        .post {
+            background: #1a1e26;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #2c313c;
+            overflow: hidden;
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
             gap: 12px;
         }
-        .gh-link {
-            background: rgba(0,0,0,0.5);
-            padding: 8px 18px;
-            border-radius: 40px;
-            text-decoration: none;
-            color: #b0d4ff;
-            border: 1px solid #b0d4ff;
-            transition: 0.3s;
-            font-size: 0.85rem;
-        }
-        .gh-link:hover {
-            background: #b0d4ff;
-            color: #06101c;
-            box-shadow: 0 0 15px #b0d4ff;
-        }
-
-        /* вкладки красивые */
-        .tabs {
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #b0d4ff, #4a7a9e);
+            border-radius: 50%;
             display: flex;
-            gap: 8px;
-            padding: 20px 32px 0 32px;
-            flex-wrap: wrap;
-        }
-        .tab {
-            padding: 12px 28px;
-            background: rgba(5, 15, 25, 0.6);
-            border-radius: 40px 40px 20px 20px;
-            cursor: pointer;
-            color: #b0d4ff;
+            align-items: center;
+            justify-content: center;
             font-weight: bold;
-            transition: 0.3s;
-            border: 1px solid transparent;
         }
-        .tab.active {
-            background: rgba(176, 224, 255, 0.15);
-            border-color: #b0d4ff;
-            color: white;
-            text-shadow: 0 0 8px #b0d4ff;
+        .post-author {
+            font-weight: bold;
+            flex: 1;
         }
-
-        .panels {
-            padding: 24px 32px 32px;
+        .post-time {
+            font-size: 0.7rem;
+            color: #8e94a3;
         }
-        .panel {
-            display: none;
-            animation: fadeIn 0.4s ease;
+        .post-content {
+            padding: 0 16px 16px;
         }
-        .panel.active {
-            display: block;
+        .post-text {
+            margin-bottom: 12px;
+            line-height: 1.4;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            color: #b0d4ff;
-            margin-bottom: 20px;
-            font-size: 1.6rem;
-            border-left: 4px solid #b0d4ff;
-            padding-left: 16px;
-        }
-
-        .proxy-box {
-            background: rgba(0,0,0,0.4);
-            border-radius: 28px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 1px solid rgba(176,224,255,0.2);
-        }
-        .proxy-list {
+        .proxy-code {
+            background: #0f1217;
+            border-radius: 16px;
+            padding: 12px;
             font-family: monospace;
-            font-size: 12px;
+            font-size: 0.7rem;
+            overflow-x: auto;
             white-space: pre-wrap;
             word-break: break-all;
-            color: #b0d4ff;
-            max-height: 300px;
-            overflow-y: auto;
-            background: rgba(0,0,0,0.3);
-            padding: 16px;
-            border-radius: 20px;
+            margin: 12px 0;
+            border: 1px solid #2c313c;
+        }
+        .post-stats {
+            display: flex;
+            gap: 20px;
+            padding: 10px 16px;
+            border-top: 1px solid #2c313c;
+            color: #8e94a3;
+            font-size: 0.8rem;
         }
         button {
-            background: linear-gradient(135deg, #2a4a6e, #1a3a5a);
+            background: #b0d4ff;
             border: none;
-            padding: 12px 28px;
-            border-radius: 40px;
-            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
             font-weight: bold;
+            color: #0a0c10;
             cursor: pointer;
-            transition: 0.3s;
-            margin-top: 16px;
-            border: 1px solid rgba(176,224,255,0.5);
-        }
-        button:hover {
-            background: #3a6a9e;
-            box-shadow: 0 0 15px #b0d4ff;
-            transform: scale(1.02);
+            margin-top: 8px;
         }
 
-        .step-card {
-            background: rgba(0,0,0,0.3);
-            border-radius: 24px;
-            padding: 20px;
-            margin: 16px 0;
-            border-left: 4px solid #b0d4ff;
+        .instruction-step {
+            background: #0f1217;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         .step-num {
-            display: inline-block;
+            width: 32px;
+            height: 32px;
             background: #b0d4ff;
-            color: #06101c;
-            width: 30px;
-            height: 30px;
-            text-align: center;
-            line-height: 30px;
-            border-radius: 30px;
-            margin-right: 12px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: bold;
+            color: #0a0c10;
         }
-
-        .checker-area {
-            background: rgba(0,0,0,0.3);
-            border-radius: 28px;
-            padding: 24px;
-        }
-        input {
-            width: 100%;
-            padding: 14px;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #b0d4ff;
-            border-radius: 40px;
-            color: white;
-            font-size: 1rem;
-            margin: 12px 0;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 16px;
-            border-radius: 24px;
-            background: rgba(0,0,0,0.3);
-        }
-        .up { color: #7fff7f; }
-        .down { color: #ff7f7f; }
 
         footer {
             text-align: center;
             padding: 24px;
-            border-top: 1px solid rgba(176,224,255,0.2);
-            color: #6a9ac0;
-            font-size: 0.75rem;
+            color: #6c727f;
+            font-size: 0.7rem;
         }
         a {
             color: #b0d4ff;
             text-decoration: none;
         }
-        @media (max-width: 700px) {
-            .glass { margin: 10px; }
-            .tabs { padding: 12px 16px 0; }
-            .panels { padding: 16px; }
+        .glass-card {
+            background: rgba(26, 30, 38, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
 <div class="snow" id="snow"></div>
-<div class="glass">
+<div class="container">
+    <!-- шапка как в Instagram -->
     <div class="header">
-        <div class="logo">
-            <h1>❄️ DarkVPN ∞</h1>
-            <p>прорви блокировки | VLESS+Reality | инструкция | чекер</p>
-        </div>
-        <div class="github-links">
-            <a href="https://github.com/web-pentest/DarkVPN" target="_blank" class="gh-link">💀 DarkVPN</a>
-            <a href="https://github.com/web-pentest" target="_blank" class="gh-link">🐙 web-pentest</a>
+        <div class="logo">❄️ DarkVPN</div>
+        <div class="header-icons">
+            <span>❤️</span>
+            <span>💬</span>
+            <span>📌</span>
         </div>
     </div>
 
-    <div class="tabs">
-        <div class="tab active" data-tab="proxy">📡 Прокси</div>
-        <div class="tab" data-tab="howto">📖 Инструкция</div>
-        <div class="tab" data-tab="checker">🔍 Чекер блокировок</div>
-    </div>
-
-    <div class="panels">
-        <!-- Прокси -->
-        <div class="panel active" id="proxyPanel">
-            <h2>🌐 Рабочие прокси (VLESS+Reality)</h2>
-            <div class="proxy-box">
-                <div class="proxy-list" id="proxyList">Загрузка...</div>
-                <button id="copyBtn">📋 Копировать все</button>
-            </div>
-            <p style="color:#8ab3cf;">✅ 140+ прокси • обновляются вручную • подходят для Throne / Hiddify / Sing-box</p>
+    <!-- истории (сторис) с разделами -->
+    <div class="stories">
+        <div class="story" data-section="proxy">
+            <div class="story-ring"><div class="story-img">📡</div></div>
+            <div class="story-name">Прокси</div>
         </div>
-
-        <!-- Инструкция -->
-        <div class="panel" id="howtoPanel">
-            <h2>📖 Как пользоваться</h2>
-            <div class="step-card"><span class="step-num">1</span> Скачай <strong>Throne (Hiddify)</strong> — <a href="https://github.com/hiddify/hiddify-next/releases" target="_blank">GitHub релиз</a></div>
-            <div class="step-card"><span class="step-num">2</span> Скопируй прокси из вкладки <strong>«Прокси»</strong> (кнопка «Копировать все»)</div>
-            <div class="step-card"><span class="step-num">3</span> Вставь в текстовый файл и сохрани как <code>proxies.txt</code></div>
-            <div class="step-card"><span class="step-num">4</span> В Throne нажми <strong>Импорт → Из файла</strong> и выбери файл</div>
-            <div class="step-card"><span class="step-num">5</span> Выбери сервер и нажми <strong>Подключиться</strong></div>
-            <div class="step-card"><span class="step-num">📱</span> Для телефона: Hiddify / Sing-box из App Store или Google Play</div>
+        <div class="story" data-section="howto">
+            <div class="story-ring"><div class="story-img">📖</div></div>
+            <div class="story-name">Инструкция</div>
         </div>
-
-        <!-- Чекер -->
-        <div class="panel" id="checkerPanel">
-            <h2>🔍 Проверить доступность сайта</h2>
-            <div class="checker-area">
-                <input type="text" id="siteUrl" placeholder="youtube.com или https://google.com">
-                <button id="checkSiteBtn">Проверить</button>
-                <div id="checkResult" class="result"></div>
-                <p style="font-size:0.7rem; margin-top:12px;">⚠️ Проверка через внешний прокси, результат может быть неточным. Лучший тест — подключиться через DarkVPN.</p>
-            </div>
+        <div class="story" data-section="info">
+            <div class="story-ring"><div class="story-img">💎</div></div>
+            <div class="story-name">DarkVPN</div>
+        </div>
+        <div class="story" data-section="github">
+            <div class="story-ring"><div class="story-img">🐙</div></div>
+            <div class="story-name">GitHub</div>
         </div>
     </div>
+
+    <!-- лента постов (динамическая) -->
+    <div id="feed"></div>
 
     <footer>
-        ❄️ DarkVPN — свобода без границ | <a href="https://github.com/web-pentest/DarkVPN">github.com/web-pentest/DarkVPN</a>
+        ❄️ <a href="https://github.com/web-pentest/DarkVPN" target="_blank">DarkVPN на GitHub</a> • <a href="https://github.com/web-pentest" target="_blank">@web-pentest</a>
     </footer>
 </div>
 
 <script>
-    // ========== ТВОИ ПРОКСИ (ВСТАВЬ СВОЙ СПИСОК) ==========
-    const PROXIES_TEXT = `vless://0fc75643-70ed-4818-a57e-a589234742f7@at4.darknet.run:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=14BLTnoHpPJF9pd9sc6eC3skMJnXFS_caUFQjA1ayyU&sid=a1b223d4&sni=gmail.com#🇦🇹 Австрия, Вена
+    // ========== ТВОИ ПРОКСИ (ЗАМЕНИ НА СВОИ) ==========
+    const PROXIES_LIST = `vless://0fc75643-70ed-4818-a57e-a589234742f7@at4.darknet.run:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=14BLTnoHpPJF9pd9sc6eC3skMJnXFS_caUFQjA1ayyU&sid=a1b223d4&sni=gmail.com#🇦🇹 Австрия, Вена
 vless://549c594a-a263-47b9-b2d9-9f383bed611c@185.209.41.102:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=lVxgFHhg8d6UYTLzBssS7c4gBdLQex8W5Bg0PqyMLAY&sid=68d8c1c0&sni=addons.mozilla.org#🇩🇪 Германия
 vless://a7b3c5d9-1e2f-3a4b-5c6d-7e8f9a0b1c2d@us.vless.pro:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=9mNvB7xZcVbNhYtRzXcVbN1mQwE3rTyUioPzA&sid=7c3d5e7f&sni=cloudflare.com#🇺🇸 США
 vless://f1e2d3c4-b5a6-7980-1a2b-3c4d5e6f7g8h@sg.vless.pro:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=2kLpM9oIj2kDfG5hYtRzXcVbN1mQwE3rTyUioPzA&sid=8a9b0c1d&sni=google.com#🇸🇬 Сингапур`;
 
-    document.getElementById('proxyList').innerText = PROXIES_TEXT;
-    document.getElementById('copyBtn').onclick = () => {
-        navigator.clipboard.writeText(PROXIES_TEXT);
-        alert('✅ Прокси скопированы! Вставьте в файл .txt и импортируйте');
-    };
+    // Рендер ленты
+    function renderFeed(section) {
+        const feed = document.getElementById('feed');
+        feed.innerHTML = '';
 
-    // Чекер блокировок
-    document.getElementById('checkSiteBtn').onclick = async () => {
-        let url = document.getElementById('siteUrl').value.trim();
-        if (!url) return alert('Введите сайт');
-        if (!url.startsWith('http')) url = 'https://' + url;
-        const resultDiv = document.getElementById('checkResult');
-        resultDiv.innerHTML = '⏳ Проверка...';
-        try {
-            const controller = new AbortController();
-            setTimeout(() => controller.abort(), 8000);
-            const res = await fetch(`https://cors-anywhere.herokuapp.com/${url}`, { method: 'HEAD', signal: controller.signal });
-            if (res.ok) resultDiv.innerHTML = `<span class="up">✅ ДОСТУПЕН (${res.status})</span><br>Сайт открывается без прокси.`;
-            else resultDiv.innerHTML = `<span class="down">❌ НЕ ДОСТУПЕН (${res.status})</span><br>Возможно заблокирован.`;
-        } catch(e) {
-            resultDiv.innerHTML = `<span class="down">❌ НЕ ДОСТУПЕН</span><br>Скорее всего, сайт заблокирован в РФ. Используй DarkVPN.`;
+        if (section === 'proxy') {
+            // пост с прокси
+            const post = document.createElement('div');
+            post.className = 'post';
+            post.innerHTML = `
+                <div class="post-header">
+                    <div class="post-avatar">📡</div>
+                    <div class="post-author">DarkVPN Proxy</div>
+                    <div class="post-time">только что</div>
+                </div>
+                <div class="post-content">
+                    <div class="post-text"><strong>🌍 140+ рабочих прокси VLESS+Reality</strong><br>Скопируй и импортируй в Throne / Hiddify</div>
+                    <div class="proxy-code">${escapeHtml(PROXIES_LIST)}</div>
+                    <button id="copyProxiesBtn">📋 Копировать все прокси</button>
+                </div>
+                <div class="post-stats">
+                    <span>❤️ 1.2k</span>
+                    <span>💬 45</span>
+                    <span>📤 128</span>
+                </div>
+            `;
+            feed.appendChild(post);
+            document.getElementById('copyProxiesBtn')?.addEventListener('click', () => {
+                navigator.clipboard.writeText(PROXIES_LIST);
+                alert('✅ Прокси скопированы!');
+            });
         }
-    };
+        else if (section === 'howto') {
+            feed.innerHTML = `
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-avatar">📖</div>
+                        <div class="post-author">DarkVPN Guide</div>
+                        <div class="post-time">рекомендовано</div>
+                    </div>
+                    <div class="post-content">
+                        <div class="instruction-step"><div class="step-num">1</div> Скачай <strong>Throne (Hiddify)</strong> — <a href="https://github.com/hiddify/hiddify-next/releases" target="_blank">GitHub релиз</a></div>
+                        <div class="instruction-step"><div class="step-num">2</div> Скопируй прокси из вкладки <strong>«Прокси»</strong></div>
+                        <div class="instruction-step"><div class="step-num">3</div> Вставь в файл <code>proxies.txt</code></div>
+                        <div class="instruction-step"><div class="step-num">4</div> Импорт в Throne → Готово</div>
+                        <div class="instruction-step"><div class="step-num">📱</div> Для телефона: Hiddify / Sing-box</div>
+                    </div>
+                    <div class="post-stats"><span>❤️ 850</span><span>💬 23</span><span>📤 67</span></div>
+                </div>
+            `;
+        }
+        else if (section === 'info') {
+            feed.innerHTML = `
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-avatar">💎</div>
+                        <div class="post-author">DarkVPN ∞</div>
+                        <div class="post-time">проект</div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-text"><strong>❄️ DarkVPN — свобода без границ</strong><br>140+ VLESS+Reality прокси для обхода блокировок в РФ. Обновляется каждый день.</div>
+                        <div class="proxy-code">⭐ 15+ стран • работает везде • никаких логов</div>
+                    </div>
+                    <div class="post-stats"><span>❤️ 2.3k</span><span>💬 128</span><span>📤 512</span></div>
+                </div>
+            `;
+        }
+        else if (section === 'github') {
+            feed.innerHTML = `
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-avatar">🐙</div>
+                        <div class="post-author">web-pentest</div>
+                        <div class="post-time">github</div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-text"><strong>🔗 Мои проекты на GitHub</strong></div>
+                        <div class="proxy-code"><a href="https://github.com/web-pentest/DarkVPN" target="_blank">💀 DarkVPN</a> — главный проект<br><a href="https://github.com/web-pentest" target="_blank">🐙 github.com/web-pentest</a> — все репозитории</div>
+                    </div>
+                    <div class="post-stats"><span>❤️ 560</span><span>💬 34</span><span>📤 89</span></div>
+                </div>
+            `;
+        }
+    }
 
-    // Переключение вкладок
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.getElementById(tab.dataset.tab + 'Panel').classList.add('active');
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Обработка кликов по историям
+    document.querySelectorAll('.story').forEach(story => {
+        story.addEventListener('click', () => {
+            const section = story.dataset.section;
+            renderFeed(section);
         });
     });
+
+    // Запускаем ленту с прокси
+    renderFeed('proxy');
 
     // снежинки
     function createSnow() {
         const snowContainer = document.getElementById('snow');
-        for (let i = 0; i < 80; i++) {
+        for (let i = 0; i < 60; i++) {
             const snowflake = document.createElement('i');
             snowflake.style.left = Math.random() * 100 + '%';
-            snowflake.style.width = snowflake.style.height = Math.random() * 6 + 2 + 'px';
-            snowflake.style.animationDuration = Math.random() * 5 + 3 + 's';
+            snowflake.style.width = snowflake.style.height = Math.random() * 5 + 2 + 'px';
+            snowflake.style.animationDuration = Math.random() * 4 + 3 + 's';
             snowflake.style.animationDelay = Math.random() * 5 + 's';
-            snowflake.style.opacity = Math.random() * 0.5 + 0.2;
             snowContainer.appendChild(snowflake);
         }
     }
